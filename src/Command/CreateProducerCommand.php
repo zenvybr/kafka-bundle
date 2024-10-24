@@ -31,9 +31,9 @@ class CreateProducerCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $className = $input->getArgument('name');
-        $classPath ='src/Infrastructure/Kafka/Producer' . $className . 'MessageProducer.php';
+        $classPath ='src/Infrastructure/Kafka/Producer/' . $className . 'MessageProducer.php';
 
-        $classContent = file_get_contents('src/Stub/ProducerClass.stub');
+        $classContent = file_get_contents(__DIR__ . '/../../Stub/ProducerClass.stub');
         $classContent = str_replace('{{$className}}', $className, $classContent);
 
         try {

@@ -31,9 +31,10 @@ class CreateConsumerCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $className = $input->getArgument('name');
-        $classPath ='src/Infrastructure/Kafka/Consumer' . $className . 'Consumer.php';
+        $classPath ='src/Infrastructure/Kafka/Consumer/' . $className . 'Consumer.php';
 
-        $classContent = file_get_contents('src/Stub/ConsumerClass.stub');
+
+        $classContent = file_get_contents(__DIR__ . '/../../Stub/ConsumerClass.stub');
         $classContent = str_replace('{{$className}}', $className, $classContent);
 
         try {
