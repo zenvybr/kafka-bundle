@@ -1,6 +1,6 @@
 <?php
 
-namespace Zenvy\Kafka\Stub;
+namespace App\Infrastructure\Kafka\Producer;
 
 use Zenvy\Kafka\Producer\KafkaMessageProducerBase;
 use Zenvy\Kafka\Producer\KafkaMessageProducerInterface;
@@ -13,7 +13,7 @@ class {{$className}}MessageProducer extends KafkaMessageProducerBase implements 
 
     }
 
-    public function getTopicsToProduce(): array{
-        return ['TOPIC.NAME.01', 'TOPIC.NAME.02];
+    public function getTopicsToSend(): array{
+        return ['TOPIC.NAME.01', 'TOPIC.NAME.02'];
     }
 }
