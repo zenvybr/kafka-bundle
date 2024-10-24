@@ -2,23 +2,22 @@
 
 namespace Zenvy\Kafka\Producer;
 
-use Exception;
 use Interop\Queue\Context;
 use Psr\Log\LoggerInterface;
-use Interop\Queue\Message;
 
-abstract class KafkaMessageProducerBase
+abstract class KafkaMessageProducer
 {
     public function __construct(
         protected Context $context,
         protected LoggerInterface $logger
     ) {
     }
-    abstract public function getTopicsToSend(): array;
+    abstract protected function getTopicsToSend(): array;
 
 
-    public function send(Message $message): int
+    public function send(array $messageBody, array $properties = [], array $headers = []): int
     {
+        $message = $this->context->createMessage(json_encode($messageBody), $properties, $headers);
         $topics = $this->getTopicsToSend();
         $this->logger->info("Sending kafka message...", ['message' => $message, 'topics' => $topics]);
         $producer = $this->context->createProducer();

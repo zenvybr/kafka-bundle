@@ -2,18 +2,13 @@
 
 namespace App\Infrastructure\Kafka\Producer;
 
-use Zenvy\Kafka\Producer\KafkaMessageProducerBase;
+use Zenvy\Kafka\Producer\KafkaMessageProducer;
 use Zenvy\Kafka\Producer\KafkaMessageProducerInterface;
 
-class {{$className}}MessageProducer extends KafkaMessageProducerBase implements KafkaMessageProducerInterface
+class {{$className}}MessageProducer extends KafkaMessageProducer
 {
-
-    public function execute(array $message): int
+    public function getTopicsToSend(): array
     {
-
-    }
-
-    public function getTopicsToSend(): array{
         return ['TOPIC.NAME.01', 'TOPIC.NAME.02'];
     }
 }
