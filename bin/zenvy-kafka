@@ -6,11 +6,11 @@ require 'vendor/autoload.php';
 use Symfony\Component\Console\Application;
 use Symfony\Component\Filesystem\Filesystem;
 use Zenvy\Kafka\Command\CreateConsumerCommand;
+use Zenvy\Kafka\Command\CreateProducerCommand;
 use Zenvy\Kafka\Command\SetupCommand;
-use Zenvy\Kafka\Command\WorkerRouteCommand;
 
 $application = new Application();
 $application->add(new CreateConsumerCommand(new Filesystem()));
-$application->add(new WorkerRouteCommand(new Filesystem()));
 $application->add(new SetupCommand(new Filesystem()));
+$application->add(new CreateProducerCommand(new Filesystem());
 $application->run();
