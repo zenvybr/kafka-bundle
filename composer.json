@@ -1,0 +1,28 @@
+{
+  "name": "zenvy/kafka-bundle",
+  "autoload": {
+    "psr-4": {
+      "Zenvy\\Kafka\\": "src/"
+    }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/henriquemenegao/enqueue-bundle"
+    }
+  ],
+  "require": {
+    "php": ">=8.2",
+    "symfony/framework-bundle": "7.1.*",
+    "symfony/console": "^7.1",
+    "enqueue/enqueue-bundle": "dev-master"
+  },
+  "bin": [
+    "bin/zenvy-kafka"
+  ],
+  "extra": {
+    "branch-alias": {
+      "dev-main": "1.0.x-dev"
+    }
+  }
+}

@@ -1,0 +1,60 @@
+<?php
+
+namespace App\Infrastructure\Kafka\Consumer;
+
+use App\Application\Dto\CreateRecipientDto;
+use App\Application\Dto\RecipientSettingsDto;
+use App\Application\UseCase\Recipient\CreateMainRecipientForAccountUseCase;
+use Zenvy\Kafka\Consumer\KafkaConsumerBase;
+use Enqueue\Consumption\QueueSubscriberInterface;
+use Interop\Queue\Context;
+use Interop\Queue\Message;
+use Interop\Queue\Processor;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
+
+class {{$className}}Consumer extends KafkaConsumerBase implements Processor, QueueSubscriberInterface
+{
+    public function __construct(LoggerInterface $logger)
+    {
+        parent::__construct($logger);
+    }
+
+    public function process(Message $message, Context $context): string
+    {
+        try {
+            $this->logger->info("Message received.");
+            $data = $this->parseMessage($message);
+            return self::ACK;
+        }
+        catch (UnprocessableEntityHttpException $e) {
+            $this->logger->warning("Failed in a validation: " . $e->getMessage());
+            return self::REJECT;
+        }
+        catch (\Exception $e) {
+            $this->logger->warning("Unexpected error: " . $e->getMessage());
+            if ($this->isMaxAttemptsReached($message)) {
+                return $this->sendToDLQ($message, $context);
+            }
+
+            $message = $this->incrementAttempts($message, $e->getMessage());
+
+            return self::REQUEUE;
+        }
+    }
+
+    public static function getSubscribedQueues(): array
+    {
+        return ['YOUR.QUEUE.NAME'];
+    }
+
+    public function getDlqQueueName(): string
+    {
+        return 'YOUR.DLQ.QUEUE.NAME';
+    }
+
+    public function getMaxProcessingAttempts(): int
+    {
+        return 3;
+    }
+}
