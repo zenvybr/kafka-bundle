@@ -33,7 +33,7 @@ class CreateProducerCommand extends Command
         $className = $input->getArgument('name');
         $classPath ='src/Infrastructure/Kafka/Producer/' . $className . 'MessageProducer.php';
 
-        $classContent = file_get_contents(__DIR__ . '/../../Stub/ProducerClass.stub');
+        $classContent = file_get_contents(__DIR__ . '/../Stub/ProducerClass.stub');
         $classContent = str_replace('{{$className}}', $className, $classContent);
 
         try {

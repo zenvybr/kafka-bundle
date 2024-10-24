@@ -34,7 +34,7 @@ class CreateConsumerCommand extends Command
         $classPath ='src/Infrastructure/Kafka/Consumer/' . $className . 'Consumer.php';
 
 
-        $classContent = file_get_contents(__DIR__ . '/../../Stub/ConsumerClass.stub');
+        $classContent = file_get_contents(__DIR__ . '/../Stub/ConsumerClass.stub');
         $classContent = str_replace('{{$className}}', $className, $classContent);
 
         try {
